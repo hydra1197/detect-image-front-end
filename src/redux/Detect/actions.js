@@ -1,6 +1,4 @@
-import axios from 'axios';
-import qs from 'qs';
-import { toast } from 'react-toastify';
+import { axiosRequest, handleError } from '../../helpers';
 import {
   GET_DETECT_LIST_LOADING,
   SET_DETECT_LIST,
@@ -25,22 +23,16 @@ export const getDetectList = (query, loadMore) => async dispatch => {
   try {
     dispatch(getDetectListLoading(true));
 
-    const response = await axios.get(
-      `${configs.CLOUD_FUNCTION_API}/getDetectList?${qs.stringify(query)}`
+    const response = await axiosRequest.get(
+      `${configs.CLOUD_FUNCTION_API}/getDetectList`,
+      query
     );
 
     dispatch(setDetectList(response.data.data, loadMore));
     dispatch(getDetectListLoading(false));
   } catch (e) {
-    toast.error(
-      (e.response &&
-        e.response.data &&
-        e.response.data.data &&
-        e.response.data.data.error &&
-        e.response.data.data.error.message) ||
-        e.message
-    );
     dispatch(getDetectListLoading(false));
+    handleError(e);
   }
 };
 
@@ -60,7 +52,7 @@ export const detectImage = (data, imageUrl) => async dispatch => {
     dispatch(detectImageLoading(true));
     dispatch(clearResultData());
 
-    const response = await axios.post(
+    const response = await axiosRequest.post(
       `${configs.CLOUD_FUNCTION_API}/detectImage`,
       { ...data }
     );
@@ -71,21 +63,14 @@ export const detectImage = (data, imageUrl) => async dispatch => {
       createdAt: new Date().toUTCString(),
     };
 
-    await axios.post(`${configs.CLOUD_FUNCTION_API}/insertDetectData`, {
+    await axiosRequest.post(`${configs.CLOUD_FUNCTION_API}/insertDetectData`, {
       data: detectData,
     });
 
     dispatch(setDetectData(detectData));
     dispatch(detectImageLoading(false));
   } catch (e) {
-    toast.error(
-      (e.response &&
-        e.response.data &&
-        e.response.data.data &&
-        e.response.data.data.error &&
-        e.response.data.data.error.message) ||
-        e.message
-    );
+    handleError(e);
     dispatch(detectImageLoading(false));
   }
 };
