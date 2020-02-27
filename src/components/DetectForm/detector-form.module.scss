@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  .box {
+    .step {
+      margin-bottom: 30px;
+      
+      @media (max-width: 768px) {
+        & > div {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+
+          & > div {
+            flex-basis: 30%;
+            padding: .5em!important;
+
+            i {
+              font-size: 1.5em!important;
+            }
+
+            & > div div {
+              font-size: 1em!important;
+            }
+          }
+        }
+      }
+    }
+
+    div {
+      &:global(.input) {
+        width: 400px;
+        
+        @media (max-width: 500px) {
+          width: 90%;
+        }
+      }
+    }
+
+    .error {
+      color: red;
+      margin-top: 5px;
+    }
+  }
+}

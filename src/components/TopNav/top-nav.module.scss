@@ -1,0 +1,20 @@
+$main-color: #37bdb3;
+
+.wrapper {
+  text-align: center;
+
+  a {
+    margin: 0 15px;
+    padding: 10px;
+    display: inline-block;
+    color: $main-color;
+
+    &:hover {
+      color: $main-color;
+    }
+
+    &:global(.active) {
+      border-bottom: 3px solid $main-color;
+    }
+  }
+}
