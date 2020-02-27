@@ -1,0 +1,11 @@
+.wrapper {
+  width: 100%!important;
+  .image {
+    img {
+      object-fit: cover!important;
+      object-position: center!important;
+      max-height: 150px!important;
+    }
+  }
+}
+
